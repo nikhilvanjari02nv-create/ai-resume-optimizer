@@ -7,7 +7,14 @@ st.set_page_config(page_title="AI Resume Optimizer", page_icon="📄")
 st.title("📄 AI Resume Optimizer")
 st.write("Paste your resume and a job description below. Get an instant ATS match score, missing keywords, and rewrite suggestions powered by AI.")
 
-client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+def get_api_key():
+    try:
+        return st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        return os.environ.get("GEMINI_API_KEY")
+
+
+client = genai.Client(api_key=get_api_key())
 
 
 def optimize_resume(resume_text, job_description):
